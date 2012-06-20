@@ -35,8 +35,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.get('/login', routes.login);
-app.get('/login/callback', routes.getCode);
-app.post('/login/callback', routes.getToken);
+app.get('/login/callback', routes.auth.getCode);
 
 
 //////////////////
