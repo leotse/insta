@@ -14,3 +14,10 @@ exports.instagram.accessTokenBodyTemplate = util.format('client_id=%s&client_sec
 	exports.instagram.clientID, 
 	exports.instagram.secret,
 	exports.instagram.redirectUrl);
+
+
+/////////////////////////////
+// MongoLab Configurations //
+/////////////////////////////
+
+exports.mongo = {};
