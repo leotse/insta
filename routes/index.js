@@ -19,7 +19,7 @@ exports.home = function(req, res) {
 
 	if(!token) res.redirect('/login');
 	else {
-		instagram.getFeed('6243303.8ac8b61.f1fc6d6424b74618b90c4d752c3ba1a9', function(err, feed) {
+		instagram.getFeed(token, function(err, feed) {
 			if(err) helpers.sendError(res, err);
 			else res.render('home', { 'title': 'feed', 'feed': feed });
 		});

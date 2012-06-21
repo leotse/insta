@@ -3,9 +3,12 @@
 //////////////////
 
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , config = require('./config')
+  , RedisStore = require('connect-redis')(express);
 
 var app = module.exports = express.createServer();
+
 
 ///////////////////
 // Configuration //
@@ -16,7 +19,10 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'pqlFNkq74RGxmjfJYIhwmw==' }));
+  app.use(express.session({ 
+    secret: 'pqlFNkq74RGxmjfJYIhwmw==', 
+    store: new RedisStore({ 'host': config.redis.host, 'port': config.redis.port, 'pass': config.redis.pass })
+  }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });

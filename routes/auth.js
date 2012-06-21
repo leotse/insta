@@ -43,6 +43,8 @@ exports.getCode = function(req, res) {
 					if(err) error(res, err);
 					else {
 
+						// set the proper cookie duration
+
 						// check if the user is already in our database
 						User.findByInstagramId(user.id, function(err, dbUser) {
 							if(err) error(res, err);
