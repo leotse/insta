@@ -37,12 +37,34 @@ exports.getUser = function(id, token, callback) {
 	// retrieve detail user profile
 	request.get(url, function(err, response, body) {
 		if(err) callback(err);
-		else {
-
-			// parse body and return user data
-			var json = JSON.parse(body);
-			if(json.meta.code !== 200) callback(json.meta);
-			else callback(null, json.data);
-		}
+		else parseResponse(body, callback);
 	});
 };
+
+
+// get user's feed
+exports.getFeed = function(token, callback) {
+	var url = util.format("https://api.instagram.com/v1/users/self/feed?access_token=%s", token);
+
+	// retrieve current user's feed
+	request.get(url, function(err, response, body) {
+		if(err) callback(err);
+		else parseResponse(body, callback);
+	});
+};
+
+
+/////////////
+// Helpers //
+/////////////
+
+// parses the response body and make callback
+function parseResponse(body, callback) {
+
+	// parse response body as json
+	var json = JSON.parse(body);
+
+	// make callback
+	if(json.meta.code !== 200) callback(json.meta);
+	else callback(null, json.data);
+}

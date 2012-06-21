@@ -1,0 +1,7 @@
+h1 feed
+each item in feed
+	img(src=item.images.standard_resolution.url)
+	if item.caption
+		p=item.caption.text
+	else
+		p (no caption)

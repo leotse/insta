@@ -7,6 +7,22 @@ var util = require('util')
  ,	User = Models.User;
 
 
+ // GET /login
+exports.login = function(req, res) {
+	var token = req.session.token;
+
+	// if user is already authenticated, go to home page
+	if(token) res.redirect('/home');
+	else {
+
+		// user token not found, redirect user to instagram login
+		var url = util.format(config.instagram.authUrlTemplate, config.instagram.clientID, config.instagram.redirectUrl);
+		res.redirect(url);
+	}
+};
+
+
+// GET /login/callback
 exports.getCode = function(req, res) {
 	var code = req.query.code;
 
@@ -42,7 +58,7 @@ exports.getCode = function(req, res) {
 								dbUser.profile = profile;
 								dbUser.save(function(err, saved) {
 									if(err) helpes.sendError(res, err);
-									else success(res, saved);
+									else success(req, res, saved);
 								});
 
 							} else {
@@ -57,7 +73,7 @@ exports.getCode = function(req, res) {
 								dbUser.profile = profile;
 								dbUser.save(function(err, saved) {
 									if(err) error(res, err);
-									else success(res, user);
+									else success(req, res, user);
 								});
 							}
 						});
@@ -73,11 +89,14 @@ exports.getCode = function(req, res) {
 // Helpers //
 /////////////
 
-function success(res, user) {
-	res.render('success', {
-		'title': 'insta',
-		'user': user
-	});
+function success(req, res, user) {
+
+	// create session
+	req.session.userId = user._id;
+	req.session.token = user.token;
+
+	// redirect user to home page after login
+	res.redirect('/home');
 }
 
 function error(res, err) {

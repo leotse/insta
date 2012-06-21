@@ -15,7 +15,8 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
-  app.use(express.methodOverride());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'pqlFNkq74RGxmjfJYIhwmw==' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -33,9 +34,15 @@ app.configure('production', function(){
 // Routes //
 ////////////
 
-app.get('/', routes.index);
-app.get('/login', routes.login);
+// authentication
+app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
+
+// dashboard
+app.get('/home', routes.home);
+
+// static pages
+app.get('/', routes.index);
 
 
 //////////////////
