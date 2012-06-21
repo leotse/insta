@@ -12,5 +12,6 @@
     , "request": ">=2.9.202"
     , "mongoose": ">=2.7.0"
     , "connect-redis": ">=1.4.0"
+    , "redis": ">=0.7.2"
   }
 }
