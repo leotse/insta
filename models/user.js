@@ -22,5 +22,6 @@ UserSchema.statics.findByInstagramId = function(id, callback) {
 	return this.findOne({ 'id': id }, callback);
 };
 
+
 // register model with mongoose
 mongoose.model('User', UserSchema);

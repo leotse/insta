@@ -1,0 +1,10 @@
+h1 paths
+ul
+if(paths)
+	each path in paths
+		li 
+			a(href="/paths/#{path._id}")=path.name
+
+form(action="/paths", method="post")
+	input(type="text", name="name")
+	input(type="submit", value="save")

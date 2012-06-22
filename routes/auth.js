@@ -94,7 +94,7 @@ exports.getCode = function(req, res) {
 function success(req, res, user) {
 
 	// create session
-	req.session.userId = user._id;
+	req.session.uid = user._id;
 	req.session.token = user.token;
 
 	// redirect user to home page after login

@@ -29,3 +29,4 @@ exports.home = function(req, res) {
 
 // more routes
 exports.auth = require('./auth');
+exports.paths = require('./paths');

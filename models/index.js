@@ -14,6 +14,10 @@ mongoose.connection.on('open', function(err, db) {
 
 // initialize models
 require('./user');
+require('./path');
+require('./photo');
 
 // exports
 exports.User = mongoose.model('User');
+exports.Path = mongoose.model('Path');
+exports.Photo = mongoose.model('Photo');

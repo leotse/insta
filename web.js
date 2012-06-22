@@ -20,8 +20,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({ 
-    secret: 'pqlFNkq74RGxmjfJYIhwmw==', 
-    store: new RedisStore({ 'host': config.redis.host, 'port': config.redis.port, 'pass': config.redis.pass })
+    secret: 'pqlFNkq74RGxmjfJYIhwmw==',
+    store: new RedisStore({ 'host': config.redis.host, 'port': config.redis.port, 'pass': config.redis.pass }),
+    cookie: { maxAge: 3600000 }
   }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -43,6 +44,11 @@ app.configure('production', function(){
 // authentication
 app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
+
+// paths
+app.get('/paths/:id', routes.paths.get);
+app.get('/paths', routes.paths.list);
+app.post('/paths', routes.paths.create);
 
 // dashboard
 app.get('/home', routes.home);
