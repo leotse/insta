@@ -47,6 +47,7 @@ app.get('/login/callback', routes.auth.getCode);
 
 // paths
 app.get('/paths/:id', routes.paths.get);
+app.delete('/paths/:id', routes.paths.destroy);
 app.get('/paths', routes.paths.list);
 app.post('/paths', routes.paths.create);
 

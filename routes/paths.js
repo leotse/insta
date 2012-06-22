@@ -38,13 +38,14 @@ exports.get = function(req, res) {
 	// get path id from request param
 	var id = req.params.id;
 
-	// if no token found, redirect to login
-	if(!id) res.sendError(res, 'path not found');
+	// verify id
+	if(!id) helper.sendError(res, 'invalid path id');
 	else {
 
 		// get the path's details
 		Path.findById(id, function(err, path) {
-			if(err) res.sendError(res, err);
+			if(err) helper.sendError(res, err);
+			else if(!path) helper.sendError(res, 'path not found');
 			else res.render('path', {
 				'title': 'path',
 				'path': path
@@ -52,6 +53,25 @@ exports.get = function(req, res) {
 		});
 	}
 };
+
+
+// DELETE /paths/:id
+exports.destroy = function(req, res) {
+
+	// get path id from request param
+	var id = req.params.id
+	
+	// make sure there's an id
+	if(!id) helper.sendError(res, 'invalid path id');
+	else  {
+
+		// delete path
+		Path.remove({ '_id': id}, function(err, removed) {
+			if(err) helper.sendError(res, err);
+			else res.send('success');
+		});
+	}
+}
 
 
 // POST /paths
