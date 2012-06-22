@@ -1,7 +1,5 @@
-var mongoose = require('mongoose')
- ,	Sche
- ,	helpers = require('../helpers')
- ,	Models = require('../Models')
+var helpers = require('../helpers')
+ ,	Models = require('../models')
  ,	Path = Models.Path;
 
 
