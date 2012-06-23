@@ -7,7 +7,9 @@ var util = require('util')
 
 // GET /
 exports.index = function(req, res){
-	res.render('index');
+	res.render('index', {
+		'title': 'insta'
+	});
 };
 
 

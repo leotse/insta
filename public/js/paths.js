@@ -30,7 +30,8 @@ $(document).ready(function() {
 	});
 
 	// script to delete path
-	$('.delete').click(function(e) {
+
+	$('#list').on('click', '.delete', function(e) {
 		var $a = $(this);
 		var $li = $a.parents('li');
 		var pid = $li.attr('pid');
