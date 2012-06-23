@@ -1,4 +1,6 @@
-// some dumb code for deleting
+// some dumb code to test api
+// TODO: choose client side framework with proper ajax and templating support
+
 $(document).ready(function() {
 
 	// script to create path

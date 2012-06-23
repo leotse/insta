@@ -2,8 +2,10 @@
 html
 	head
 		title= title
+		link(rel='stylesheet', href='/css/ui-lightness/jquery-ui-1.8.21.custom.css')
 		link(rel='stylesheet', href='/css/style.css')
-
+		script(type='text/javascript', src='/js/jquery-1.7.2.min.js')
+		script(type='text/javascript', src='/js/jquery-ui-1.8.21.custom.min.js')
 		if(typeof scripts !== 'undefined' && scripts.length > 0)
 			each script in scripts 
 				script(type='text/javascript', src=script)

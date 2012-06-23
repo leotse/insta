@@ -26,7 +26,7 @@ exports.render = function(req, res){
 				res.render('paths', { 
 					'title': 'paths', 
 					'paths': paths,
-					'scripts': [ 'js/jquery.js', 'js/paths.js' ]
+					'scripts': [ 'js/paths.js' ]
 				});
 			}
 		});
@@ -83,6 +83,7 @@ exports.get = function(req, res) {
 					else {
 						res.render('path', {
 							'title': 'path',
+							'scripts': [ '/js/path.js' ],
 							'path': path,
 							'users': users
 						});
@@ -102,6 +103,8 @@ exports.update = function(req, res) {
 
 	var pid = req.params.id;
 	var collaborators = req.body.collaborators || [];
+	var start = req.body.start || Date.now();
+	var end = req.body.end || Date.now();
 
 	if(!uid || !token) res.redirect('/login');
 	else if(!pid) helpers.sendError(res, 'invalid pid');
@@ -110,7 +113,7 @@ exports.update = function(req, res) {
 		// update collaborators
 		Path.update(
 			{ '_id': pid },
-			{ 'collaborators': collaborators },
+			{ 'collaborators': collaborators, 'start': start, 'end': end },
 			{ 'multi': false }, 
 			function(err, updated) {
 				if(err) helpers.sendError(res, err);

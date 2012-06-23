@@ -1,14 +1,18 @@
 h2 path - #{path.name}
 
-h3 photos
-= path.photos
-
 h3 collaborators
 =path.collaborators
 
-h3 add collaborators
+h3 dates
+=path.start 
+=' to '
+=path.end
+
+h2 edit
 if(users.length > 0)
 	form(method = "post", action = "/paths/#{path._id}")
+		input(type = "date", name = "start", value = "#{path.start}")
+		input(type = "date", name = "end", value = "#{path.end}")
 		ul
 			each user in users
 				li
@@ -16,6 +20,5 @@ if(users.length > 0)
 						name = "collaborators", 
 						value = user.username,
 						checked = path.collaborators.indexOf(user.username) >= 0)
-					img(alt = user.username, src = user.profile_picture, width = '50', height = '50')
 					= user.username
 		input(type="submit", value="save")
