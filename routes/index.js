@@ -7,8 +7,13 @@ var util = require('util')
 
 // GET /
 exports.index = function(req, res){
+
+	// see if user is logged in
+	var authenticated = !!req.session.uid;
+
 	res.render('index', {
-		'title': 'insta'
+		'title': 'insta',
+		'authenticated': authenticated
 	});
 };
 

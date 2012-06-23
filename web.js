@@ -44,6 +44,7 @@ app.configure('production', function(){
 // authentication
 app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
+app.get('/logout', routes.auth.logout);
 
 // paths
 app.get('/paths', routes.paths.render);

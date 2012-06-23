@@ -22,6 +22,13 @@ exports.login = function(req, res) {
 };
 
 
+// GET /logout
+exports.logout = function(req, res) {
+	req.session.destroy();
+	res.redirect('/');
+}
+
+
 // GET /login/callback
 exports.getCode = function(req, res) {
 	var code = req.query.code;
