@@ -1,13 +1,12 @@
 h2 paths
-ul
-if(paths)
-	each path in paths
-		li(pid=path._id)
-			a(href="/paths/#{path._id}")=path.name
-			a(class="delete") - del
+ul(id="list")
+	if(paths)
+		each path in paths
+			li(pid=path._id)
+				a(href="/paths/#{path._id}")=path.name
+				a(class="delete") - del
 
 
-h3 create
-form(action="/paths", method="post")
-	input(type="text", name="name")
-	input(type="submit", value="save")
+h2 create
+	div
+		input(id="path", type="text", name="name")

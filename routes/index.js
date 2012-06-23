@@ -7,7 +7,7 @@ var util = require('util')
 
 // GET /
 exports.index = function(req, res){
-	res.render('index', { title: 'insta' });
+	res.render('index');
 };
 
 
@@ -21,7 +21,10 @@ exports.home = function(req, res) {
 	else {
 		instagram.getFeed(token, function(err, feed) {
 			if(err) helpers.sendError(res, err);
-			else res.render('home', { 'title': 'feed', 'feed': feed });
+			else res.render('home', { 
+				'title': 'home',
+				'feed': feed
+			});
 		});
 	}
 };

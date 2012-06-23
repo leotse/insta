@@ -46,10 +46,10 @@ app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
 
 // paths
+app.get('/paths', routes.paths.render);
+app.post('/paths', routes.paths.create);
 app.get('/paths/:id', routes.paths.get);
 app.delete('/paths/:id', routes.paths.destroy);
-app.get('/paths', routes.paths.list);
-app.post('/paths', routes.paths.create);
 
 // dashboard
 app.get('/home', routes.home);

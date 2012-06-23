@@ -4,7 +4,7 @@ var helpers = require('../helpers')
 
 
 // GET /paths
-exports.list = function(req, res){
+exports.render = function(req, res){
 	
 	// get uid and token from session
 	var token = req.session.token;
@@ -24,7 +24,8 @@ exports.list = function(req, res){
 				// render paths page
 				res.render('paths', { 
 					'title': 'paths', 
-					'paths': paths 
+					'paths': paths,
+					'scripts': [ 'js/jquery.js', 'js/paths.js' ]
 				});
 			}
 		});
@@ -81,7 +82,7 @@ exports.create = function(req, res) {
 	var token = req.session.token;
 	var uid = req.session.uid;
 
-	// if no token found, redirect to 
+	// if no token found, redirect to login
 	if(!token || !uid) res.redirect('/login');
 	else {
 
@@ -92,7 +93,7 @@ exports.create = function(req, res) {
 		// save the path
 		newPath.save(function(err, saved) {
 			if(err) helpers.sendError(res, err);
-			else res.redirect('/paths');
+			else res.send(saved);
 		});
 	}
 };

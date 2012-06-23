@@ -4,7 +4,7 @@
 
 // helper to send error message to client
 exports.sendError = function(res, err) {
-	res.send(err);
+	res.send(err, 500);
 };
 
 
