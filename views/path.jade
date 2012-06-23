@@ -1,20 +1,21 @@
 h2 path - #{path.name}
 
 h3 photos
-if(path.photos)
-	ul
-		each photo in path.photos
-			li=photo
+= path.photos
 
 h3 collaborators
 =path.collaborators
 
 h3 add collaborators
 if(users.length > 0)
-	form(method="post", action="/paths/#{path._id}")
+	form(method = "post", action = "/paths/#{path._id}")
 		ul
 			each user in users
 				li
-					input(type="checkbox", name="collaborators", value=user.username, checked=(path.collaborators.indexOf(user.username) >= 0))
-					=user.username
+					input(type = "checkbox", 
+						name = "collaborators", 
+						value = user.username,
+						checked = path.collaborators.indexOf(user.username) >= 0)
+					img(alt = user.username, src = user.profile_picture, width = '50', height = '50')
+					= user.username
 		input(type="submit", value="save")
