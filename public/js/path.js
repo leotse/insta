@@ -2,8 +2,13 @@ $(document).ready(function(e) {
 
 	// initialize start date picker
 	var $start = $('input[type=date][name=start]');
-	$start.datepicker().datepicker('setDate', new Date($start.val()));
+	$start.datepicker({ 'onClose': onClose }).datepicker('setDate', new Date($start.val()));
 
 	var $end = $('input[type=date][name=end]');
-	$end.datepicker().datepicker('setDate', new Date($end.val()));
+	$end.datepicker({ 'onClose': onClose }).datepicker('setDate', new Date($end.val()));
+
+	function onClose(date, field) {
+		var date = new Date(date);
+		$(field).val(date);
+	}
 });
