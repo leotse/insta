@@ -1,4 +1,5 @@
 var helpers = require('../helpers')
+ ,	instagram = helpers.instagram
  ,	Models = require('../models')
  ,	Path = Models.Path;
 
@@ -33,48 +34,6 @@ exports.render = function(req, res){
 };
 
 
-// GET /paths/:id
-exports.get = function(req, res) {
-
-	// get path id from request param
-	var id = req.params.id;
-
-	// verify id
-	if(!id) helper.sendError(res, 'invalid path id');
-	else {
-
-		// get the path's details
-		Path.findById(id, function(err, path) {
-			if(err) helper.sendError(res, err);
-			else if(!path) helper.sendError(res, 'path not found');
-			else res.render('path', {
-				'title': 'path',
-				'path': path
-			});
-		});
-	}
-};
-
-
-// DELETE /paths/:id
-exports.destroy = function(req, res) {
-
-	// get path id from request param
-	var id = req.params.id
-	
-	// make sure there's an id
-	if(!id) helper.sendError(res, 'invalid path id');
-	else  {
-
-		// delete path
-		Path.remove({ '_id': id}, function(err, removed) {
-			if(err) helper.sendError(res, err);
-			else res.send('success');
-		});
-	}
-}
-
-
 // POST /paths
 exports.create = function(req, res) {
 
@@ -94,6 +53,89 @@ exports.create = function(req, res) {
 		newPath.save(function(err, saved) {
 			if(err) helpers.sendError(res, err);
 			else res.send(saved);
+		});
+	}
+};
+
+
+// GET /paths/:id
+exports.get = function(req, res) {
+
+	// get path id from request param, uid and token from session
+	var token = req.session.token;
+	var uid = req.session.uid;
+	var id = req.params.id;
+
+	// verify id
+	if(!token || !uid) res.redirect('/login');
+	else if(!id) helpers.sendError(res, 'invalid path id');
+	else {
+
+		// get the path's details
+		Path.findById(id, function(err, path) {
+			if(err) helpers.sendError(res, err);
+			else if(!path) helpers.sendError(res, 'path not found');
+			else {
+
+				// get current user's following
+				instagram.getFollowing(token, function(err, users) {
+					if(err) helpers.sendError(res, 'instagram api error');
+					else {
+						res.render('path', {
+							'title': 'path',
+							'path': path,
+							'users': users
+						});
+					}
+				});
+			}
+		});
+	}
+};
+
+
+// POST /paths/:id
+exports.update = function(req, res) {
+
+	var uid = req.session.uid;
+	var token = req.session.token;
+
+	var pid = req.params.id;
+	var collaborators = req.body.collaborators || [];
+
+	if(!uid || !token) res.redirect('/login');
+	else if(!pid) helpers.sendError(res, 'invalid pid');
+	else {
+
+		// update collaborators
+		Path.update(
+			{ '_id': pid },
+			{ 'collaborators': collaborators },
+			{ 'multi': false }, 
+			function(err, updated) {
+				if(err) helpers.sendError(res, err);
+				else if(updated === 0) helpers.sendError(res, 'path not found');
+				else res.redirect('/paths/' + pid);
+			}
+		);
+	}
+};
+
+
+// DELETE /paths/:id
+exports.destroy = function(req, res) {
+
+	// get path id from request param
+	var id = req.params.id
+	
+	// make sure there's an id
+	if(!id) helpers.sendError(res, 'invalid path id');
+	else  {
+
+		// delete path
+		Path.remove({ '_id': id}, function(err, removed) {
+			if(err) helpers.sendError(res, err);
+			else res.send('success');
 		});
 	}
 };

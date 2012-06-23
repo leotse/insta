@@ -54,6 +54,17 @@ exports.getFeed = function(token, callback) {
 };
 
 
+// get uer's follwoing
+exports.getFollowing = function(token, callback) {
+	var url = util.format("https://api.instagram.com/v1/users/self/follows?access_token=%s", token);
+
+	request.get(url, function(err, response, body) {
+		if(err) callback(err);
+		else parseResponse(body, callback);
+	});
+};
+
+
 /////////////
 // Helpers //
 /////////////

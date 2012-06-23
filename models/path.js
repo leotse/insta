@@ -9,9 +9,10 @@ var mongoose = require('mongoose')
 
 // schema definition
 var PathSchema = new Schema({
-	name	: { type: String, required: true },
-	uid		: { type: Schema.ObjectId, ref: 'User', required: true },
-	photos	: [{ type: Schema.ObjectId, ref: 'Photo', required: true }],
+	name			: { type: String, required: true },
+	uid				: { type: Schema.ObjectId, ref: 'User', required: true },
+	collaborators	: [ { type: String, required: true } ],
+	photos			: [ { type: Schema.ObjectId, ref: 'Photo', required: true } ],
 }, { strict: true });
 
 

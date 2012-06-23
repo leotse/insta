@@ -50,6 +50,7 @@ app.get('/logout', routes.auth.logout);
 app.get('/paths', routes.paths.render);
 app.post('/paths', routes.paths.create);
 app.get('/paths/:id', routes.paths.get);
+app.post('/paths/:id', routes.paths.update);
 app.delete('/paths/:id', routes.paths.destroy);
 
 // dashboard
