@@ -7,6 +7,7 @@ $(document).ready(function(e) {
 	var $end = $('input[type=date][name=end]');
 	$end.datepicker({ 'onClose': onClose }).datepicker('setDate', new Date($end.val()));
 
+	// to fix timezone issue
 	function onClose(date, field) {
 		var date = new Date(date);
 		$(field).val(date);

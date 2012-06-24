@@ -103,6 +103,7 @@ function success(req, res, user) {
 	// create session
 	req.session.uid = user._id;
 	req.session.token = user.token;
+	req.session.username = user.username;
 
 	// redirect user to home page after login
 	res.redirect('/home');

@@ -1,0 +1,18 @@
+h2 edit
+if(users.length > 0)
+	form(method = "post", action = "/paths/#{path._id}")
+		p name
+			input(type = "text", name="name", value = "#{path.name}")
+		p start
+			input(type = "date", name = "start", value = "#{path.start}")
+		p end
+			input(type = "date", name = "end", value = "#{path.end}")
+		ul
+			each user in users
+				li
+					input(type = "checkbox", 
+						name = "collaborators", 
+						value = user.username,
+						checked = path.collaborators.indexOf(user.username) >= 0)
+					= user.username
+		input(type="submit", value="save")

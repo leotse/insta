@@ -46,10 +46,13 @@ app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
 app.get('/logout', routes.auth.logout);
 
-// paths
-app.get('/paths', routes.paths.render);
+// paths pages
+app.get('/paths', routes.paths.list);
+app.get('/paths/:id', routes.paths.show);
+app.get('/paths/:id/edit', routes.paths.edit);
+
+// paths api
 app.post('/paths', routes.paths.create);
-app.get('/paths/:id', routes.paths.get);
 app.post('/paths/:id', routes.paths.update);
 app.delete('/paths/:id', routes.paths.destroy);
 

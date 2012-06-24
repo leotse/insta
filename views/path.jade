@@ -1,4 +1,5 @@
 h2 path - #{path.name}
+a(href='/paths/#{path._id}/edit')= 'edit'
 
 h3 collaborators
 =path.collaborators
@@ -8,17 +9,5 @@ h3 dates
 =' to '
 =path.end
 
-h2 edit
-if(users.length > 0)
-	form(method = "post", action = "/paths/#{path._id}")
-		input(type = "date", name = "start", value = "#{path.start}")
-		input(type = "date", name = "end", value = "#{path.end}")
-		ul
-			each user in users
-				li
-					input(type = "checkbox", 
-						name = "collaborators", 
-						value = user.username,
-						checked = path.collaborators.indexOf(user.username) >= 0)
-					= user.username
-		input(type="submit", value="save")
+h3 photos
+=path.photos
