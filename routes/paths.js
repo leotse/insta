@@ -143,6 +143,11 @@ exports.update = function(req, res) {
 	var start = req.body.start || Date.now();
 	var end = req.body.end || Date.now();
 
+	// convert start and end time to date objects
+	start = new Date(start);
+	end = new Date(end);
+
+	// set collaborators
 	var collaborators;
 	if(req.body.collaborators instanceof Array)
 		collaborators = req.body.collaborators;
@@ -158,7 +163,11 @@ exports.update = function(req, res) {
 		collaborators.push(iid);
 
 		// get recent photos for all collaborators
-		instagram.getRecentForUsers(token, collaborators, { 'count': 1 }, function(err, recent) {
+		instagram.getRecentForUsers(token, collaborators, { 
+			'count': 5,
+			'minTime': Math.round(start.getTime() / 1000),
+			'maxTime': Math.round(end.getTime() / 1000)
+		}, function(err, recent) {
 			if(err || !recent) helpers.sendError(res, err);
 			else {
 

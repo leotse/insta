@@ -62,7 +62,8 @@ PhotoSchema.statics.upsert = function(photo, callback) {
 PhotoSchema.statics.upsertAll = function(photos, callback) {
 
 	// input sanitization
-	if(!photos || photos.length === 0) callback('invalid photos collection');
+	if(!photos) callback('invalid photos collection');
+	else if(photos.length === 0) callback(null, []);
 	else {
 		var errs = []
 		 ,	results = []
