@@ -9,7 +9,7 @@ var mongoose = require('mongoose')
 
 // schema definition
 var UserSchema = new Schema({
-	id			: { type: String, required: true, unique: true }	
+	iid			: { type: String, required: true, unique: true }
  ,	username	: { type: String, required: true, unique: true }
  ,	name		: { type: String, required: true, index: true }
  ,	picture 	: { type: String, required: true }
@@ -19,7 +19,7 @@ var UserSchema = new Schema({
 }, { strict: true });
 
 UserSchema.statics.findByInstagramId = function(id, callback) {
-	return this.findOne({ 'id': id }, callback);
+	return this.findOne({ 'iid': id }, callback);
 };
 
 

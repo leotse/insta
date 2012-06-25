@@ -1,7 +1,8 @@
 var helpers = require('../helpers')
  ,	instagram = helpers.instagram
  ,	Models = require('../models')
- ,	Path = Models.Path;
+ ,	Path = Models.Path
+ ,	Photo = Models.Photo;
 
 
 // GET /paths
@@ -48,7 +49,10 @@ exports.show = function(req, res) {
 	else {
 
 		// get the path's details
-		Path.findById(id, function(err, path) {
+		Path
+		.where('_id', id)
+		.populate('photos')
+		.findOne(function(err, path) {
 			if(err) helpers.sendError(res, err);
 			else if(!path) helpers.sendError(res, 'path not found');
 			else {
@@ -107,16 +111,16 @@ exports.create = function(req, res) {
 	// retrieve session vars
 	var uid = req.session.uid;
 	var token = req.session.token;
-	var username = req.session.username;
+	var iid = req.session.iid;
 
 	// if no token found, redirect to login
-	if(!token || !uid || !username) res.redirect('/login');
+	if(!token || !uid || !iid) res.redirect('/login');
 	else {
 
 		// associate path to signed in user
 		var newPath = new Path(req.body);
 		newPath.uid = uid;
-		newPath.collaborators.push(username);
+		newPath.collaborators.push(iid);
 
 		// save the path
 		newPath.save(function(err, saved) {
@@ -132,32 +136,68 @@ exports.update = function(req, res) {
 
 	var uid = req.session.uid;
 	var token = req.session.token;
-	var username = req.session.username;
+	var iid = req.session.iid;
 
 	var pid = req.params.id;
 	var name = req.body.name || '';
-	var collaborators = req.body.collaborators || [];
 	var start = req.body.start || Date.now();
 	var end = req.body.end || Date.now();
 
-	if(!uid || !token || !username) res.redirect('/login');
+	var collaborators;
+	if(req.body.collaborators instanceof Array)
+		collaborators = req.body.collaborators;
+	else if(typeof req.body.collaborators === "string")
+		collaborators = [ req.body.collaborators ];
+	else
+		collaborators = [ ];
+
+	if(!uid || !token || !iid) res.redirect('/login');
 	else if(!pid) helpers.sendError(res, 'invalid pid');
 	else {
-
 		// by default add path owner as collaborator
-		collaborators.push(username);
+		collaborators.push(iid);
 
-		// update collaborators
-		Path.update(
-			{ '_id': pid },
-			{ 'name': name, 'collaborators': collaborators, 'start': start, 'end': end },
-			{ 'multi': false }, 
-			function(err, updated) {
-				if(err) helpers.sendError(res, err);
-				else if(updated === 0) helpers.sendError(res, 'path not found');
-				else res.redirect('/paths/' + pid);
+		// get recent photos for all collaborators
+		instagram.getRecentForUsers(token, collaborators, { 'count': 1 }, function(err, recent) {
+			if(err || !recent) helpers.sendError(res, err);
+			else {
+
+				// retrieved some photos
+				// upsert them into db
+				Photo.upsertAll(recent, function(err, photos) {
+					if(err) helpers.sendError(res, err);
+					else {
+
+						// now update the path
+						Path.findOne({ '_id': pid }, function(err, path) {
+							if(err) helpers.sendError(res, err);
+							else if(!path) helpers.sendError(res, 'path not found');
+							else {
+
+								// update path 
+								path.name = name;
+								path.collaborators = collaborators;
+								path.start = start;
+								path.end = end;
+
+								// update path's photos
+								var newPhotos = [ ];
+								for(var i = photos.length - 1; i >= 0; i--) {
+									newPhotos.push(photos[i]._id);
+								}
+								path.photos = newPhotos;
+
+								// save updated path
+								path.save(function(err, updated) {
+									if(err) helpers.sendError(res, err);
+									else res.redirect('/paths/' + pid);
+								});
+							}
+						});
+					}
+				});
 			}
-		);
+		});
 	}
 };
 

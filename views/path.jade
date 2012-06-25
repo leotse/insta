@@ -10,4 +10,7 @@ h3 dates
 =path.end
 
 h3 photos
-=path.photos
+ul
+	each photo in path.photos
+		li
+			img(src=photo.images.standard_resolution.url)

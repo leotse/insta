@@ -46,11 +46,9 @@ exports.getCode = function(req, res) {
 				var token = tokenRes.access_token;
 
 				// get detailed user profile data
-				helpers.instagram.getUser(user.id, token, function(err, profile) {
+				helpers.instagram.getUser(token, function(err, profile) {
 					if(err) error(res, err);
 					else {
-
-						// set the proper cookie duration
 
 						// check if the user is already in our database
 						User.findByInstagramId(user.id, function(err, dbUser) {
@@ -59,7 +57,7 @@ exports.getCode = function(req, res) {
 
 								// user is already in db
 								// instead of creating a new user we want to update the existing one
-								dbUser.id = profile.id;
+								dbUser.iid = profile.id;
 								dbUser.username = profile.username;
 								dbUser.name = profile.full_name;
 								dbUser.picture = profile.profile_picture;
@@ -74,7 +72,7 @@ exports.getCode = function(req, res) {
 
 								// this is a new user save the instagram user to db
 								var dbUser = new User();
-								dbUser.id = profile.id;
+								dbUser.iid = profile.id;
 								dbUser.username = profile.username;
 								dbUser.name = profile.full_name;
 								dbUser.picture = profile.profile_picture;
@@ -82,7 +80,7 @@ exports.getCode = function(req, res) {
 								dbUser.profile = profile;
 								dbUser.save(function(err, saved) {
 									if(err) error(res, err);
-									else success(req, res, user);
+									else success(req, res, saved);
 								});
 							}
 						});
@@ -103,7 +101,7 @@ function success(req, res, user) {
 	// create session
 	req.session.uid = user._id;
 	req.session.token = user.token;
-	req.session.username = user.username;
+	req.session.iid = user.iid
 
 	// redirect user to home page after login
 	res.redirect('/home');
