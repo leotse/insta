@@ -84,6 +84,7 @@ exports.getRecent = function(token, uid, options, callback) {
 	}
 
 	// make request to instagram
+	console.log(url);
 	request.get(url, function(err, response, body) {
 		if(err) callback(err);
 		else parseResponse(body, callback);

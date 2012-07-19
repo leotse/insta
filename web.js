@@ -46,6 +46,10 @@ app.get('/login', routes.auth.login);
 app.get('/login/callback', routes.auth.getCode);
 app.get('/logout', routes.auth.logout);
 
+// subscription
+app.get('/subscription', routes.subscription.verify);
+app.post('/subscription', routes.subscription.callback);
+
 // paths pages
 app.get('/paths', routes.paths.list);
 app.get('/paths/:id', routes.paths.show);
@@ -70,4 +74,32 @@ app.get('/', routes.index);
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
   console.log("insta server listening on port %d in %s mode", app.address().port, app.settings.env);
+});
+
+
+
+
+
+
+
+
+// subscribe for instagram notification
+var util = require('util')
+ ,  request = require('request')
+ ,  config = require('./config').instagram
+
+var url = util.format(
+  'https://api.instagram.com/v1/subscriptions/?client_id=%s&client_secret=%s&verify_token=%s',
+  config.clientID, 
+  config.secret
+);
+
+var body = util.format(
+  'callback_url=%s&aspect=media&object=user&verify_token=%s',
+  'http://insta.dyndns-server.com/subscription',
+  'whatisthistokenforanyway'
+);
+
+request.post({ 'url': url, 'body': body }, function(err, res, body) {
+  console.log(body);
 });
