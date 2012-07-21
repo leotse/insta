@@ -37,34 +37,42 @@ app.configure('production', function(){
 });
 
 
-////////////
-// Routes //
-////////////
+///////////
+// Pages //
+///////////
 
 // authentication
-app.get('/login', routes.auth.login);
-app.get('/login/callback', routes.auth.getCode);
-app.get('/logout', routes.auth.logout);
+app.get('/login', routes.web.auth.login);
+app.get('/login/callback', routes.web.auth.getCode);
+app.get('/logout', routes.web.auth.logout);
 
 // subscription
-app.get('/subscription', routes.subscription.verify);
-app.post('/subscription', routes.subscription.callback);
+app.get('/subscription', routes.web.subscription.verify);
+app.post('/subscription', routes.web.subscription.callback);
 
 // paths pages
-app.get('/paths', routes.paths.list);
-app.get('/paths/:id', routes.paths.show);
-app.get('/paths/:id/edit', routes.paths.edit);
+app.get('/paths', routes.web.paths.list);
+app.get('/paths/:id', routes.web.paths.show);
+app.get('/paths/:id/edit', routes.web.paths.edit);
 
-// paths api
-app.post('/paths', routes.paths.create);
-app.post('/paths/:id', routes.paths.update);
-app.delete('/paths/:id', routes.paths.destroy);
+// paths 
+app.post('/paths', routes.web.paths.create);
+app.post('/paths/:id', routes.web.paths.update);
+app.delete('/paths/:id', routes.web.paths.destroy);
 
 // dashboard
-app.get('/home', routes.home);
+app.get('/home', routes.web.home);
 
 // static pages
-app.get('/', routes.index);
+app.get('/', routes.web.index);
+
+
+/////////
+// API //
+/////////
+
+app.get('/api/paths', routes.api.paths.list);
+app.get('/api/paths/:id', routes.api.paths.details);
 
 
 //////////////////
@@ -79,27 +87,23 @@ app.listen(port, function(){
 
 
 
+// // subscribe for instagram notification
+// var util = require('util')
+//  ,  request = require('request')
+//  ,  config = require('./config').instagram
 
+// var url = util.format(
+//   'https://api.instagram.com/v1/subscriptions/?client_id=%s&client_secret=%s&verify_token=%s',
+//   config.clientID, 
+//   config.secret
+// );
 
+// var body = util.format(
+//   'callback_url=%s&aspect=media&object=user&verify_token=%s',
+//   'http://insta.dyndns-server.com/subscription',
+//   'whatisthistokenforanyway'
+// );
 
-
-// subscribe for instagram notification
-var util = require('util')
- ,  request = require('request')
- ,  config = require('./config').instagram
-
-var url = util.format(
-  'https://api.instagram.com/v1/subscriptions/?client_id=%s&client_secret=%s&verify_token=%s',
-  config.clientID, 
-  config.secret
-);
-
-var body = util.format(
-  'callback_url=%s&aspect=media&object=user&verify_token=%s',
-  'http://insta.dyndns-server.com/subscription',
-  'whatisthistokenforanyway'
-);
-
-request.post({ 'url': url, 'body': body }, function(err, res, body) {
-  console.log(body);
-});
+// request.post({ 'url': url, 'body': body }, function(err, res, body) {
+//   console.log(body);
+// });

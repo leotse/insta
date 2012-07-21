@@ -1,6 +1,6 @@
-var helpers = require('../helpers')
+var helpers = require('../../helpers')
  ,	instagram = helpers.instagram
- ,	Models = require('../models')
+ ,	Models = require('../../models')
  ,	Path = Models.Path
  ,	Photo = Models.Photo;
 

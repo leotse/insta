@@ -1,9 +1,9 @@
 var util = require('util')
  ,	request = require('request')
- ,	config = require('../config')
- ,	helpers = require('../helpers')
+ ,	config = require('../../config')
+ ,	helpers = require('../../helpers')
  ,	instagram = helpers.instagram
- ,	Models = require('../models')
+ ,	Models = require('../../models')
  ,	User = Models.User;
 
 
