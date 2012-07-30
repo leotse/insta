@@ -9,7 +9,8 @@ var mongoose = require('mongoose')
 
 // schema definition
 var PathSchema = new Schema({
-	name			: { type: String, required: true },
+	title			: { type: String, required: true },
+	description		: { type: String },
 	uid				: { type: Schema.ObjectId, ref: 'User', required: true },
 	start			: { type: Date, default: Date.now },
 	end				: { type: Date, default: Date.now },

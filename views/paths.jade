@@ -3,10 +3,10 @@ ul(id="list")
 	if(paths)
 		each path in paths
 			li(pid=path._id)
-				a(href="/paths/#{path._id}")=path.name
+				a(href="/paths/#{path._id}")=path.title
 				a(class="delete") &nbsp;-&nbsp;del
 
 
 h2 create
 	div
-		input(id="path", type="text", name="name")
+		input(id="path", type="text", name="title")

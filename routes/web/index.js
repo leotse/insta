@@ -1,4 +1,5 @@
-var helpers = require('../../helpers');
+var helpers = require('../../helpers')
+ ,	instagram = helpers.instagram;
 
 
 // GET /

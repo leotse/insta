@@ -7,12 +7,12 @@ $(document).ready(function() {
 	$('#path').keypress(function(e) {
 		if(e.which == 13) {
 			var $input = $(this)
-			var name = $input.val();
+			var title = $input.val();
 			$input.val('');
 
-			// make sure name is not empty then call api
-			if(name) {
-				var data = { "name": name };
+			// make sure title is not empty then call api
+			if(title) {
+				var data = { "title": title };
 				$.ajax({
 					'type': 'POST',
 					'url': '/paths',
@@ -21,7 +21,7 @@ $(document).ready(function() {
 					'success': function(data) {
 						var $added  = $('<li></li>');
 						$added.attr('pid', data._id);
-						$added.append('<a href="/paths/' + data._id + '">' + data.name + '</a>');
+						$added.append('<a href="/paths/' + data._id + '">' + data.title + '</a>');
 						$added.append('<a class="delete">- del</a>');
 
 						$('#list').append($added);
@@ -51,5 +51,6 @@ $(document).ready(function() {
 });
 
 function error(jqXHR, textStatus, errorThrown) {
+	console.log(jqXHR);
 	alert('status: ' + textStatus + ', error: ' + errorThrown);
 }
