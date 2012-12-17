@@ -1,12 +1,11 @@
 var util = require('util');
 
 
-/////////////////////////////
-// MongoLab Configurations //
-/////////////////////////////
+////////////////////////////
+// MongoDB Configurations //
+////////////////////////////
 
-exports.mongo = { };
-exports.connectionString = "mongodb://heroku_app5412164:am9u2o5394gbnqp457s80ekrk2@ds033767.mongolab.com:33767/heroku_app5412164";
+exports.connectionString = "mongodb://nodejitsu:4ae98d019df4bec809372cb9c51675eb@linus.mongohq.com:10075"
 
 
 //////////////////////////
@@ -14,10 +13,10 @@ exports.connectionString = "mongodb://heroku_app5412164:am9u2o5394gbnqp457s80ekr
 //////////////////////////
 
 exports.redis = { };
-exports.redis.connectionString = "redis://redistogo:fc323487049761f58df30e64f5e8321c@koi.redistogo.com:9283/";
-exports.redis.host = "koi.redistogo.com";
-exports.redis.port = "9283";
-exports.redis.pass = "fc323487049761f58df30e64f5e8321c";
+exports.redis.connectionString = "redis://nodejitsu:f327cfe980c971946e80b8e975fbebb4@nodejitsudb4430928423.redis.irstack.com:6379";
+exports.redis.host = "nodejitsudb4430928423.redis.irstack.com";
+exports.redis.port = "6379";
+exports.redis.pass = "f327cfe980c971946e80b8e975fbebb4";
 
 
 //////////////////////////////////////////
