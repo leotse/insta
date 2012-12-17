@@ -133,6 +133,7 @@ exports.create = function(req, res) {
 
 // POST /paths/:id
 exports.update = function(req, res) {
+	console.log(req.body);
 
 	var uid = req.session.uid;
 	var token = req.session.token;
